@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligent Pot - Full Project Site</title>
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #557c64;
+            --dark: #2d4035;
+            --light: #f4f6f5;
+            --white: #ffffff;
+            --gold: #d4af37;
+            --nav-height: 70px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        html {
+            scroll-snap-type: y mandatory;
+            height: 100%;
+            overflow-y: scroll;
+        }
+
+        body {
+            font-family: 'Prompt', sans-serif;
+            color: #333;
+            margin: 0;
+        }
+
+        /* --- Navbar --- */
+        nav {
+            position: fixed;
+            top: 0; width: 100%; height: var(--nav-height);
+            padding: 0 40px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .nav-brand { display: flex; flex-direction: column; }
+        .logo { font-weight: 700; color: var(--primary); font-size: 1.2rem; }
+        .school { font-size: 0.8rem; color: #666; }
+
+        .nav-links { display: flex; gap: 20px; }
+        .nav-links a {
+            text-decoration: none; color: var(--dark);
+            font-weight: 500; font-size: 0.9rem;
+            transition: 0.3s; cursor: pointer;
+        }
+        .nav-links a:hover { color: var(--primary); }
+
+        /* --- Sections Structure --- */
+        header, section {
+            scroll-snap-align: start;
+            min-height: 100vh; /* บังคับเต็มจอ */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 80px 20px; /* เพิ่ม Padding กันชนขอบบนล่าง */
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 2.2rem; color: var(--primary);
+            margin-bottom: 40px; position: relative;
+            text-align: center;
+        }
+        .section-title::after {
+            content: ''; display: block; width: 60px; height: 4px;
+            background: var(--gold); margin: 10px auto 0; border-radius: 2px;
+        }
+
+        /* --- Hero --- */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), #1a2e20);
+            text-align: center; color: var(--white);
+        }
+        .hero h1 { font-size: 3.5rem; line-height: 1.2; margin-bottom: 20px; }
+        .hero p { font-size: 1.1rem; opacity: 0.9; margin-bottom: 40px; max-width: 600px; }
+        
+        .btn {
+            padding: 12px 35px; background: var(--white); color: var(--primary);
+            text-decoration: none; border-radius: 50px; font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2); cursor: pointer; transition: 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); }
+
+        /* --- Why Section --- */
+        .why-section { background: var(--white); }
+        .why-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px; max-width: 1100px; width: 100%;
+        }
+        .why-card {
+            padding: 25px; background: var(--white); border: 1px solid #eee;
+            border-radius: 15px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        .icon { font-size: 3rem; margin-bottom: 15px; display: block; }
+
+        /* --- Process (How it works) - NEW --- */
+        .process-section { background: #eef2f0; }
+        .process-container {
+            display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;
+            max-width: 1000px; text-align: center;
+        }
+        .process-step {
+            flex: 1; min-width: 200px; background: var(--white);
+            padding: 30px; border-radius: 20px; position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        /* เส้นลูกศรเชื่อม (แสดงเฉพาะจอใหญ่) */
+        @media (min-width: 768px) {
+            .process-step:not(:last-child)::after {
+                content: '➜'; position: absolute; right: -30px; top: 50%;
+                transform: translateY(-50%); font-size: 24px; color: #ccc;
+            }
+        }
+        .step-icon { font-size: 40px; margin-bottom: 10px; display: block; }
+        .step-title { font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .step-desc { font-size: 0.9rem; color: #666; }
+
+        /* --- Gallery - NEW --- */
+        .gallery-section { background: var(--white); }
+        .gallery-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px; max-width: 1000px; width: 100%;
+        }
+        .gallery-item {
+            height: 200px; background: #ddd; border-radius: 15px;
+            overflow: hidden; position: relative;
+        }
+        /* Placeholder รูป */
+        .img-placeholder {
+            width: 100%; height: 100%; background: #ccc;
+            display: flex; align-items: center; justify-content: center;
+            color: #777; font-size: 0.9rem;
+        }
+        img {
+            object-fit: cover;
+            width: 100%;
+        }
+        /* --- Team --- */
+        .team-section { background: var(--light); }
+        .team-grid {
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 30px; max-width: 900px; width: 100%;
+        }
+        .member-card {
+            background: var(--white); padding: 30px 15px; border-radius: 15px;
+            text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .avatar {
+            width: 90px; height: 90px; background: #eee; border-radius: 50%;
+            margin: 0 auto 15px; display: flex; align-items: center; justify-content: center;
+            font-size: 30px; border: 3px solid var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            scroll-snap-align: end; background: var(--dark); color: var(--white);
+            text-align: center; padding: 40px 20px; height: auto; min-height: auto;
+        }
+
+        /* Animation Classes */
+        .hidden { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+        .show { opacity: 1; transform: translateY(0); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .nav-links { display: none; } /* ซ่อนเมนูบนมือถือ */
+            .process-container { flex-direction: column; } /* เรียงแนวตั้งในมือถือ */
+            .process-step::after { display: none; } /* ซ่อนลูกศรในมือถือ */
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="nav-brand">
+            <div class="logo">🌿 Intelligent Pot</div>
+            <div class="school">โรงเรียนพนัสพิทยาคาร</div>
+        </div>
+        <div class="nav-links">
+            <a class="smooth-link" href="#home">หน้าแรก</a>
+            <a class="smooth-link" href="#why">ที่มา</a>
+            <a class="smooth-link" href="#process">การทำงาน</a> <a class="smooth-link" href="#gallery">รูปภาพ</a> <a class="smooth-link" href="#team">ผู้จัดทำ</a>
+        </div>
+    </nav>
+
+    <header id="home" class="hero">
+        <h1 class="hidden">กระถางต้นไม้<br>Intelligent</h1>
+        <p class="hidden delay-100">นวัตกรรมเพื่อพื้นที่สีเขียวที่ยั่งยืน<br>ดูแลต้นไม้อัตโนมัติด้วยเทคโนโลยี IoT</p>
+        <div class="hidden delay-200">
+            <a class="btn smooth-link" href="#why">ดูรายละเอียด ↓</a>
+        </div>
+    </header>
+
+    <section id="why" class="why-section">
+        <h2 class="section-title hidden">ที่มาและความสำคัญ</h2>
+        <div class="why-grid">
+            <div class="why-card hidden delay-100">
+                <span class="icon">🥀</span>
+                <h3>ปัญหา</h3>
+                <p>ไม่มีเวลาดูแล รดน้ำไม่สม่ำเสมอ ทำให้ต้นไม้ตาย</p>
+            </div>
+            <div class="why-card hidden delay-200">
+                <span class="icon">💡</span>
+                <h3>แนวคิด</h3>
+                <p>ใช้ ESP32 + เซนเซอร์ความชื้น ควบคุมการรดน้ำอัตโนมัติ</p>
+            </div>
+            <div class="why-card hidden delay-300">
+                <span class="icon">✨</span>
+                <h3>ประโยชน์</h3>
+                <p>เพิ่มความสะดวก ประหยัดเวลา ต้นไม้เจริญเติบโตได้ดี</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="process" class="process-section">
+        <h2 class="section-title hidden">หลักการทำงานของระบบ</h2>
+        <div class="process-container">
+            <div class="process-step hidden delay-100">
+                <span class="step-icon">📡</span>
+                <div class="step-title">1. ตรวจวัดค่า</div>
+                <div class="step-desc">เซนเซอร์วัดความชื้นในดิน ส่งค่าไปยังบอร์ด ESP32 ตลอดเวลา</div>
+            </div>
+            <div class="process-step hidden delay-200">
+                <span class="step-icon">⚙️</span>
+                <div class="step-title">2. ประมวลผล</div>
+                <div class="step-desc">ถ้าดินแห้งกว่ากำหนด ESP32 จะสั่ง Relay ให้เปิดปั๊มน้ำอัตโนมัติ</div>
+            </div>
+            <div class="process-step hidden delay-300">
+                <span class="step-icon">☁️</span>
+                <div class="step-title">3. แจ้งเตือน/เก็บข้อมูล</div>
+                <div class="step-desc">ส่งข้อมูลขึ้น Google Sheets และแสดงผลผ่านหน้าเว็บไซต์ Vercel</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section">
+        <h2 class="section-title hidden">ภาพผลงาน</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item hidden delay-100">
+                <div class="img-placeholder"><img src="1.jpg" alt=""></div>
+            </div>
+            <div class="gallery-item hidden delay-200">
+                <div class="img-placeholder"><img src="image.png" alt=""></div>
+            </div>
+            <div class="gallery-item hidden delay-300">
+                <div class="img-placeholder"><img src="2.jpg" alt=""></div>
+            </div>
+        </div>
+        <br>
+        <a href="https://drive.google.com/file/d/1MYOGwnGLHQGZ4Oor6N1MCjeb08eEeJd3/view?usp=sharing" target="_blank" class="btn hidden delay-300" style="background:var(--primary); color:white; margin-top:20px;">
+            📄 ดาวน์โหลดโปสเตอร์โครงงาน
+        </a>
+    </section>
+
+    <section id="team" class="team-section">
+        <h2 class="section-title hidden">คณะผู้จัดทำ</h2>
+        <div class="team-grid">
+            <div class="member-card hidden delay-100">
+                <div class="avatar"><img src="2.jpg"  alt="" style="width: 90px; height: 85px; border-radius: 50%;"></div>
+                <div><b>นายปภังกร ฐานะกาญจน์</b></div>
+                <div style="font-size:0.9rem; color:#666;">เลขที่ 1 ชั้น ม.5/1</div>
+            </div>
+            <div class="member-card hidden delay-200">
+                <div class="avatar"><img src="55.jpg"  alt="" style="width: 90px; height: 85px; border-radius: 50%;"></div>
+                <div><b>นายปุญญพัฒน์ กนกเพชร</b></div>
+                <div style="font-size:0.9rem; color:#666;">เลขที่ 14 ชั้น ม.5/1</div>
+            </div>
+            <div class="member-card hidden delay-300">
+                <div class="avatar"><img src="3.jpg"  alt="" style="width: 90px; height: 85px; border-radius: 50%;"></div>
+                <div><b>นายณัฐธีร์ เลี้ยงพรรัตนะ</b></div>
+                <div style="font-size:0.9rem; color:#666;">เลขที่ 31 ชั้น ม.5/1</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Intelligent Pot Project</p>
+        <p style="opacity: 0.7; font-size: 0.9rem; margin-top: 5px;">ครูที่ปรึกษา: อนุสรณ์ ปิติวงษ์</p>
+        <p style="opacity: 0.7; font-size: 0.9rem;">โรงเรียนพนัสพิทยาคาร</p>
+    </footer>
+
+    <script>
+        // Smooth Scroll Fix
+        document.querySelectorAll('.smooth-link').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1);
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Animation Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show');
+                }
+            });
+        });
+        document.querySelectorAll('.hidden').forEach((el) => observer.observe(el));
+    </script>
+
+</body>
+</html>
